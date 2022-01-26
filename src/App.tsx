@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {removeTaskAC, removeTaskACThunk} from "./features/TodolistsList/TasksReducer";
 import {useDispatch} from "react-redux";
 import {Todolist} from "./features/TodolistsList/Todolist/Todolist";
 import {useAppSelector} from "./app/store";
+import {setTodosThunk} from "./features/TodolistsList/todolistReducer";
 
 function App() {
     // We are not needing to get state here now
@@ -11,6 +12,18 @@ function App() {
     // so, we are transferring it to Todolist.tsx
 
     let dispatch = useDispatch() // we be usefully here
+
+    useEffect(() => {
+        // at the begging I am giving you advice to ring out server
+
+        // todolistAPI.getTodolists()
+        //      .then((res)=>{
+        //          console.log(res.data)
+        //              })
+
+        // and then dispatch thunkCreator
+        dispatch(setTodosThunk())
+    }, [])
 
     function removeTask(id: string) {
         dispatch(removeTaskACThunk(id))
