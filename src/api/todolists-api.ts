@@ -22,9 +22,21 @@ export const todolistsAPI = {
     getTasks(todolistId: string) {
         return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
     },
+    removeTasks(todolistId: string, taskId: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
+    },
+    createTask(todolistId: string, taskTitle: string) {
+        return instance.post<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks`, {title: taskTitle})
+    },
 }
 
-// types
+export type ResponseType<D = {}> = {
+    fieldsErrors: Array<string>
+    resultCode: number
+    messages: Array<string>
+    data: D
+}
+
 export type getTodolistsType = {
     id: string
     title: string
