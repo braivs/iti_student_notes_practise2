@@ -1,44 +1,33 @@
-import React, {useReducer} from 'react';
+import React from 'react';
 import './App.css';
-import {removeTaskAC, TasksReducer} from "./features/TodolistsList/TasksReducer";
-import {removeTodolistAC, todolistReducer} from "./features/TodolistsList/todolistReducer";
+import {removeTaskAC} from "./features/TodolistsList/TasksReducer";
+import {removeTodolistAC} from "./features/TodolistsList/todolistReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {Todolist} from "./features/TodolistsList/Todolist/TodoList";
+import {rootReducerType} from "./app/store";
+import {TaskType} from "./types/types";
 
 function App() {
-    //[state, dispatchState] = useReducer(connecting tasksReducer...
-    //[any name, any name]...
-    let [tasks, tasksDispatch] = useReducer(TasksReducer, [
-        { id: 1, title: 'HTML&СSS', isDone: false},
-        { id: 2, title: 'JS', isDone: false},
-        { id: 3, title: 'ReactJS', isDone: false},
-        { id: 4, title: 'Rest API', isDone: false},
-        { id: 5, title: 'GraphQL', isDone: false},
-    ])
-
-    //as much state - as reducers
-    let [todolist, todolistDispatch] = useReducer(todolistReducer, [
-            {id: 1, title: '10', filter: false}
-        ])
-
+    //creating dispatch - one for all useSelector
+    let dispatch = useDispatch()
+    //task - now we will get our state
+    //           <from store, typing of our state>(we take state from needed reducer)
+    let tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks)
 
     function removeTask(id: number) {
-        // here was with useState:
-        // let filteredTasks = tasks.filter(t => t.id != id)
-        // setTasks(filteredTasks)
-        //--------------------------------------------------
-        //and now with TasksReducer
-        tasksDispatch(removeTaskAC(id))
-        // dispatch(calls ActionCreator(in which we put all necessary))
-        //--------------------------------------------------
+        dispatch(removeTaskAC(id))
         //one function can use multiple reducers:
-        todolistDispatch(removeTodolistAC(id))
-
+        dispatch(removeTodolistAC(id))
     }
 
 
     return (
         <div className="App">
-
-
+            <Todolist
+                title={'What to learn'}
+                tasks={tasks}
+                removeTask={removeTask}
+            />
 
         </div>
     );

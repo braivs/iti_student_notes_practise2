@@ -3,6 +3,7 @@ import React from 'react';
 import './Todolist.css'
 //import from encapsulated style
 import styles from './Todolist.module.css'
+import {TaskType} from "../../../types/types";
 
 export function Todolist(props: PropsType) {
     // drawing props
@@ -20,4 +21,6 @@ export function Todolist(props: PropsType) {
 
 type PropsType = {
     title: string
+    tasks: Array<TaskType>
+    removeTask: (id: number) => void
 }
