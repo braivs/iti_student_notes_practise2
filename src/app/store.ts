@@ -1,8 +1,9 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import {TasksReducer} from "../features/TodolistsList/TasksReducer";
 import {todolistReducer} from "../features/TodolistsList/todolistReducer";
 import {AppReducer} from "../features/TodolistsList/AppReducer";
+import thunk from "redux-thunk";
 
 
 let rootReducer = combineReducers({
@@ -20,7 +21,7 @@ export const useAppSelector: TypedUseSelectorHook<rootReducerType> = useSelector
 window.store = store
 
 //creating store and put inside of it rootReducer
-export const store=createStore(rootReducer)
+export const store=createStore(rootReducer, applyMiddleware(thunk))
 
 // there was in old times
 // let isError = useSelector<AppRootStateType, string | null>(state => state.app.isError)

@@ -2,15 +2,16 @@
 //                   (state: this is our tasks, bundle key-action)
 
 import {TaskType} from "../../types/types";
+import {Dispatch} from "redux";
 
 // creating initial state - that is necessary
 // putting data inside, to draw something
 let initialState: Array<TaskType> = [
-    { id: 1, title: 'HTML&СSS', isDone: false},
-    { id: 2, title: 'JS', isDone: false},
-    { id: 3, title: 'ReactJS', isDone: false},
-    { id: 4, title: 'Rest API', isDone: false},
-    { id: 5, title: 'GraphQL', isDone: false},
+    { id: '1', title: 'HTML&СSS', isDone: false},
+    { id: '2', title: 'JS', isDone: false},
+    { id: '3', title: 'ReactJS', isDone: false},
+    { id: '4', title: 'Rest API', isDone: false},
+    { id: '5', title: 'GraphQL', isDone: false},
 ]
 
 //                          state=initialState
@@ -24,12 +25,17 @@ export const TasksReducer = (state: Array<TaskType> = initialState, action: Acti
     }
 }
 
-export const removeTaskAC = (id: number) => {
+export const removeTaskAC = (id: string) => {
     // get id from dispatch
     return {
         type: 'REMOVE-TASK', // necessary field-key for switch
         id: id // id - that we get from dispatch
     } as const //'REMOVE TASK' - is not a string! - this is 'REMOVE-TASK'
+}
+
+//creating our thunk
+export const removeTaskACThunk = (id: string) => (dispatch: Dispatch) => {
+    dispatch(removeTaskAC(id))
 }
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {removeTaskAC} from "./features/TodolistsList/TasksReducer";
+import {removeTaskAC, removeTaskACThunk} from "./features/TodolistsList/TasksReducer";
 import {useDispatch} from "react-redux";
 import {Todolist} from "./features/TodolistsList/Todolist/Todolist";
 import {useAppSelector} from "./app/store";
@@ -12,8 +12,8 @@ function App() {
 
     let dispatch = useDispatch() // we be usefully here
 
-    function removeTask(id: number) {
-        dispatch(removeTaskAC(id))
+    function removeTask(id: string) {
+        dispatch(removeTaskACThunk(id))
     }
 
     let isError = useAppSelector<string | null>(state => state.app.isError)
