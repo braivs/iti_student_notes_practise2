@@ -1,23 +1,18 @@
 import React from 'react';
 import './App.css';
 import {removeTaskAC} from "./features/TodolistsList/TasksReducer";
-import {removeTodolistAC} from "./features/TodolistsList/todolistReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {Todolist} from "./features/TodolistsList/Todolist/TodoList";
-import {rootReducerType} from "./app/store";
-import {TaskType} from "./types/types";
+import {useDispatch} from "react-redux";
+import {Todolist} from "./features/TodolistsList/Todolist/Todolist";
 
 function App() {
-    //creating dispatch - one for all useSelector
-    let dispatch = useDispatch()
-    //task - now we will get our state
-    //           <from store, typing of our state>(we take state from needed reducer)
-    let tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks)
+    // We are not needing to get state here now
+    // and then to put it by props
+    // so, we are transferring it to Todolist.tsx
+
+    let dispatch = useDispatch() // we be usefully here
 
     function removeTask(id: number) {
         dispatch(removeTaskAC(id))
-        //one function can use multiple reducers:
-        dispatch(removeTodolistAC(id))
     }
 
 
@@ -25,7 +20,7 @@ function App() {
         <div className="App">
             <Todolist
                 title={'What to learn'}
-                tasks={tasks}
+                // tasks={tasks}
                 removeTask={removeTask}
             />
 
