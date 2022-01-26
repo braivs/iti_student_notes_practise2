@@ -1,46 +1,45 @@
-import React from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
-import picture from './assets/image/react_logo_icon_144942.png'
-import { Body } from './Routing/Body';
-import {Navigation} from "./Routing/Navigation";
-
-let user = {
-    name: 'Briws',
-    hair: 32,
-    address: {
-        city: 'Querim',
-        house: 12
-    },
-    laptop: {
-        title: 'Lenovo'
-    }
-}
-
-// {...doing shallow copy of the user, and rewrite with all content}
-// Those like in broken TV. Do not solder micro board, but changed.
-let laptopApple = { ...user, laptop: {title: 'apple'} }
-console.log('From Immutability.tsx:')
-console.log(laptopApple)
-
-//{...doing shallow copy to the user, address: {...doing shallow copy ot the address, and change in it}}
-//old micro board city to the same by name, but with another content
-let NewYorkCity = { ...user, address: {...user.address, city: 'NewYork'}}
-console.log(NewYorkCity)
-
-//onClick (Native JS)
-// select button with what we work
-const button = document.querySelector('#button')
-// We assign to event 'click' handler, those the fuction,
-// we will be call, as the event will be.
-button && button.addEventListener('click', () => console.log('I am button'))
+import {removeTaskAC, TasksReducer} from "./features/TodolistsList/TasksReducer";
+import {removeTodolistAC, todolistReducer} from "./features/TodolistsList/todolistReducer";
 
 function App() {
+    //[state, dispatchState] = useReducer(connecting tasksReducer...
+    //[any name, any name]...
+    let [tasks, tasksDispatch] = useReducer(TasksReducer, [
+        { id: 1, title: 'HTML&СSS', isDone: false},
+        { id: 2, title: 'JS', isDone: false},
+        { id: 3, title: 'ReactJS', isDone: false},
+        { id: 4, title: 'Rest API', isDone: false},
+        { id: 5, title: 'GraphQL', isDone: false},
+    ])
+
+    //as much state - as reducers
+    let [todolist, todolistDispatch] = useReducer(todolistReducer, [
+            {id: 1, title: '10', filter: false}
+        ])
+
+
+    function removeTask(id: number) {
+        // here was with useState:
+        // let filteredTasks = tasks.filter(t => t.id != id)
+        // setTasks(filteredTasks)
+        //--------------------------------------------------
+        //and now with TasksReducer
+        tasksDispatch(removeTaskAC(id))
+        // dispatch(calls ActionCreator(in which we put all necessary))
+        //--------------------------------------------------
+        //one function can use multiple reducers:
+        todolistDispatch(removeTodolistAC(id))
+
+    }
+
+
     return (
         <div className="App">
-            <div><img src={picture} alt=""/></div>
-            <button onClick={() => console.log('I am button')}>Button</button>
-            <Navigation/>
-            <Body/>
+
+
+
         </div>
     );
 }
