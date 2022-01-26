@@ -1,7 +1,7 @@
 // how mush states - count of reducers = each of the separate page
 //                   (state: this is our tasks, bundle key-action)
 
-import {TodoType} from "../../types/types";
+import {TaskType, TodoType} from "../../types/types";
 import {getTodolistsType, todolistsAPI} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 
@@ -18,6 +18,10 @@ export const todolistReducer = (state: Array<TodoType>, action: generalType) => 
     }
 }
 
+
+
+
+
 export const setTodosAC = (todos: Array<getTodolistsType>) => {
     return {
         type: 'SET-TODOS', todos
@@ -32,6 +36,8 @@ export const setTodosThunk = () => (dispatch: Dispatch) => {
             dispatch(setTodosAC(res.data))
         })
 }
+
+
 
 // bundle key-type for actions
 type generalType =

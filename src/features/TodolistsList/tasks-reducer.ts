@@ -3,6 +3,7 @@
 
 import {TaskType} from "../../types/types";
 import {Dispatch} from "redux";
+import {todolistsAPI} from "../../api/todolists-api";
 
 // creating initial state - that is necessary
 // putting data inside, to draw something
@@ -25,6 +26,12 @@ export const TasksReducer = (state: Array<TaskType> = initialState, action: Acti
     }
 }
 
+export const fetchTasksAC = (tasks: Array<TaskType>, todolistId: string) => {
+    return {
+        type: 'SET-TASKS', tasks, todolistId
+    } as const
+}
+
 export const removeTaskAC = (id: string) => {
     // get id from dispatch
     return {
@@ -36,6 +43,13 @@ export const removeTaskAC = (id: string) => {
 //creating our thunk
 export const removeTaskACThunk = (id: string) => (dispatch: Dispatch) => {
     dispatch(removeTaskAC(id))
+}
+
+export const fetchTasksThunk = (todolistId: string) => (dispatch: Dispatch) => {
+    todolistsAPI.getTasks(todolistId)
+        .then((res) => {
+            dispatch(fetchTasksAC(res.data.items, todolistId))
+        })
 }
 
 
