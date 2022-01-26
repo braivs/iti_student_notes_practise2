@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import picture from './assets/image/react_logo_icon_144942.png'
+import { Body } from './Routing/Body';
+import {Navigation} from "./Routing/Navigation";
 
 let user = {
     name: 'Briws',
@@ -37,6 +39,8 @@ function App() {
         <div className="App">
             <div><img src={picture} alt=""/></div>
             <button onClick={() => console.log('I am button')}>Button</button>
+            <Navigation/>
+            <Body/>
         </div>
     );
 }
