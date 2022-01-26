@@ -4,15 +4,16 @@
 import {TaskType} from "../../types/types";
 import {Dispatch} from "redux";
 import {todolistsAPI} from "../../api/todolists-api";
+import {RootReducerType} from "../../app/store";
 
 // creating initial state - that is necessary
 // putting data inside, to draw something
 let initialState: Array<TaskType> = [
-    { id: '1', title: 'HTML&СSS', isDone: false},
-    { id: '2', title: 'JS', isDone: false},
-    { id: '3', title: 'ReactJS', isDone: false},
-    { id: '4', title: 'Rest API', isDone: false},
-    { id: '5', title: 'GraphQL', isDone: false},
+    {id: '1', title: 'HTML&СSS', isDone: false},
+    {id: '2', title: 'JS', isDone: false},
+    {id: '3', title: 'ReactJS', isDone: false},
+    {id: '4', title: 'Rest API', isDone: false},
+    {id: '5', title: 'GraphQL', isDone: false},
 ]
 
 //                          state=initialState
@@ -52,6 +53,15 @@ export const fetchTasksThunk = (todolistId: string) => (dispatch: Dispatch) => {
         })
 }
 
+export const updateTaskTC = (todolistId: string, taskId: string) =>
+    (dispatch: Dispatch, getState: () => RootReducerType) => {
+        // getStata() - that way we can get access to the state, that may be usefully while updating
+        let model: any = getState()
+        console.log(getState())
+        todolistsAPI.updateTask(todolistId, taskId, model)
+            .then((res) => {
+            })
+    }
 
 // bundle key-type for actions
 type ActionTypes =

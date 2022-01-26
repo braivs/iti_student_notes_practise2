@@ -19,9 +19,6 @@ export const todolistReducer = (state: Array<TodoType>, action: generalType) => 
 }
 
 
-
-
-
 export const setTodosAC = (todos: Array<getTodolistsType>) => {
     return {
         type: 'SET-TODOS', todos

@@ -5,12 +5,12 @@ import './Todolist.css'
 import styles from './Todolist.module.css'
 import {TaskType} from "../../../types/types";
 import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "../../../app/store";
+import {RootReducerType} from "../../../app/store";
 import {fetchTasksThunk} from "../tasks-reducer";
 
 export const Todolist = React.memo(function (props: PropsType) {
     // we paste here useSelector, and later we are drawing state without any props
-    let tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks)
+    let tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks)
     const dispatch = useDispatch()
     useEffect(() => {
        dispatch(fetchTasksThunk(props.id))

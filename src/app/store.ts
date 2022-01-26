@@ -12,9 +12,9 @@ let rootReducer = combineReducers({
     app: AppReducer
 })
 
-export type rootReducerType = ReturnType<typeof rootReducer>
+export type RootReducerType = ReturnType<typeof rootReducer>
 
-export const useAppSelector: TypedUseSelectorHook<rootReducerType> = useSelector
+export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector
 
 // this is, to get store from console in browser
 // @ts-ignore
