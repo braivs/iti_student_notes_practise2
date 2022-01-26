@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import picture from './assets/image/react_logo_icon_144942.png'
 
 let user = {
     name: 'Briws',
@@ -27,7 +28,7 @@ console.log(NewYorkCity)
 function App() {
     return (
         <div className="App">
-
+            <div><img src={picture} alt=""/></div>
         </div>
     );
 }
