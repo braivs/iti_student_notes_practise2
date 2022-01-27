@@ -1,11 +1,9 @@
-// how mush states - count of reducers = each of the separate page
-//                   (state: this is our tasks, bundle key-action)
-
-import {TaskType} from "../../types/types";
+import {resultCodes, TaskType} from "../../types/types";
 import {Dispatch} from "redux";
 import {todolistsAPI} from "../../api/todolists-api";
 import {RootReducerType} from "../../app/store";
 import {AxiosError} from "axios";
+import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
 
 // creating initial state - that is necessary
 // putting data inside, to draw something
@@ -84,16 +82,18 @@ export const removeTaskThunk = (payload: { todolistId: string, taskId: string })
 export const addTaskTC = (title: string, todoListID: string) => (dispatch: Dispatch<ActionTypes>) => {
     todolistsAPI.createTask(todoListID, title)
         .then(res => {
-            // if (res.data.resultCode === 0) { // there was a problem that does not understand: 0 - this good or bad
             if (res.data.resultCode === resultCodes.success) { // become
-
             } else {
-
+                if (res.data.messages.length) {
+                    dispatch(setAppStatusAC(res.data.messages[0]))
+                } else {
+                    dispatch(setAppStatusAC('Some error occurred'))
+                }
             }
         })
-        .catch((err: AxiosError) => { // typing will tell what to write
-            debugger // in debugger mode we can see what field to show
-            dispatch(setErrorAC(err.message)) //dispatching incoming error
+        .catch((error: AxiosError) => {
+            dispatch(setAppErrorAC(error.message ? error.message : 'some error'))
+            dispatch(setAppStatusAC('failed'))
         })
 }
 
@@ -106,12 +106,7 @@ type setErrorActionType = ReturnType<typeof setErrorAC>
 type ActionTypes =
     | removeTaskActionType
     | setErrorActionType
+    | SetAppStatusActionType
+    | SetAppErrorActionType
 
-
-
-enum resultCodes {
-    success = 0,
-    error = 1,
-    captcha = 10
-}
 

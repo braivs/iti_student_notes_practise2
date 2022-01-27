@@ -9,3 +9,11 @@ export type TodoType = {
     title: string
     filter: boolean
 }
+
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed' | string
+
+export enum resultCodes {
+    success = 0,
+    error = 1,
+    captcha = 10
+}

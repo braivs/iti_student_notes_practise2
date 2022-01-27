@@ -33,7 +33,11 @@ export const todolistsAPI = {
     },
     deleteTask(payload: {todolistId: string, taskId: string}) {
         return instance.delete<ResponseType>(`todo-lists/${payload.todolistId}/tasks/${payload.taskId}`);
-    }
+    },
+    createTodolist(title: string) {
+        const promise = instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title});
+        return promise;
+    },
 }
 
 export type UpdateTaskModelType = {
@@ -91,4 +95,10 @@ export enum TaskPriorities {
     Hi = 2,
     Urgently = 3,
     Later = 4
+}
+export type TodolistType = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
 }
