@@ -5,7 +5,7 @@ import axios from "axios";
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/', //we take it from API docs
     withCredentials: true, // it is connected with setting of security this current API
-    // here speaking about using cookies is requests our Todolist and this API
+    // here speaking about using cookies is requests our TodolistFC and this API
     headers: {
         'api-key': '36c47461-cd5e-48a2-a6d3-2dd87b11456f'
         // the key we do not created by ourselves, about using it is written in API docs

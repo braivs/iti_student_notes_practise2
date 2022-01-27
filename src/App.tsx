@@ -1,15 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {removeTaskAC, removeTaskACThunk} from "./features/TodolistsList/tasks-reducer";
+import {removeTaskACThunk} from "./features/TodolistsList/tasks-reducer";
 import {useDispatch} from "react-redux";
-import {Todolist} from "./features/TodolistsList/Todolist/Todolist";
 import {useAppSelector} from "./app/store";
 import {setTodosThunk} from "./features/TodolistsList/todolist-reducer";
 
 function App() {
     // We are not needing to get state here now
     // and then to put it by props
-    // so, we are transferring it to Todolist.tsx
+    // so, we are transferring it to TodolistFC.tsx
 
     let dispatch = useDispatch() // we be usefully here
 
