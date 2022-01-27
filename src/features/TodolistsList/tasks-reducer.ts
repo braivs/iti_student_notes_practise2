@@ -42,6 +42,12 @@ export const removeTaskAC = (id: string, todolistId: string) => {
     } as const //'REMOVE TASK' - is not a string! - this is 'REMOVE-TASK'
 }
 
+export const setErrorAC = (err: string) => {
+    return {
+        type: 'SET-ERROR', err
+    } as const
+}
+
 //creating our thunk
 export const removeTaskACThunk = (id: string, todolistId: string) => (dispatch: Dispatch) => {
     dispatch(removeTaskAC(id, todolistId))
@@ -65,9 +71,9 @@ export const updateTaskTC = (todolistId: string, taskId: string) =>
     }
 
 // new thunkCreator
-export const removeTaskThunk = (payload: {todolistId: string, taskId: string}) => (dispatch: Dispatch) => {
+export const removeTaskThunk = (payload: { todolistId: string, taskId: string }) => (dispatch: Dispatch) => {
     todolistsAPI.deleteTask(payload)
-        .then((res)=>{
+        .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(payload.taskId, payload.todolistId))
             }
@@ -85,16 +91,23 @@ export const addTaskTC = (title: string, todoListID: string) => (dispatch: Dispa
 
             }
         })
-        .catch((error: AxiosError) => {
+        .catch((err: AxiosError) => { // typing will tell what to write
+            debugger // in debugger mode we can see what field to show
+            dispatch(setErrorAC(err.message)) //dispatching incoming error
         })
 }
+
+//for each action need type-here we get type automatically
+//note: ACTION, not the function returned ACTION
+type removeTaskActionType = ReturnType<typeof removeTaskAC>
+type setErrorActionType = ReturnType<typeof setErrorAC>
 
 // bundle key-type for actions
 type ActionTypes =
     | removeTaskActionType
-//for each action need type-here we get type automatically
-//note: ACTION, not the function returned ACTION
-type removeTaskActionType = ReturnType<typeof removeTaskAC>
+    | setErrorActionType
+
+
 
 enum resultCodes {
     success = 0,
