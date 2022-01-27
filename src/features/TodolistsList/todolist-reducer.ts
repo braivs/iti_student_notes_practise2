@@ -3,6 +3,7 @@ import {getTodolistsType, todolistsAPI} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
 import {AxiosError} from "axios";
+import {handleServerAppError} from "../../utils/error-utils";
 
 export const todolistReducer = (state: Array<TodoType>, action: ActionType) => {
     switch (action.type) {
@@ -40,16 +41,11 @@ export const addTodolistTC = (title: string) => {
                     dispatch(addTodolistAC(res.data.data.item))
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
-                    if (res.data.messages.length) {
-                        dispatch(setAppErrorAC(res.data.messages[0]))
-                    } else {
-                        dispatch(setAppStatusAC('Some error occurred'))
-                    }
+                    handleServerAppError(res.data, dispatch)
                 }
             })
-            .catch((error: AxiosError) => {
-                dispatch(setAppErrorAC(error.message ? error.message : 'some error'))
-                dispatch(setAppStatusAC('failed'))
+            .catch((error) => {
+                handleServerAppError(error, dispatch)
             })
     }
 }

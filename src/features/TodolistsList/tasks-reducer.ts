@@ -4,6 +4,7 @@ import {todolistsAPI} from "../../api/todolists-api";
 import {RootReducerType} from "../../app/store";
 import {AxiosError} from "axios";
 import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
+import {handleServerAppError} from "../../utils/error-utils";
 
 // creating initial state - that is necessary
 // putting data inside, to draw something
@@ -84,16 +85,11 @@ export const addTaskTC = (title: string, todoListID: string) => (dispatch: Dispa
         .then(res => {
             if (res.data.resultCode === resultCodes.success) { // become
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setAppStatusAC(res.data.messages[0]))
-                } else {
-                    dispatch(setAppStatusAC('Some error occurred'))
-                }
+                handleServerAppError(res.data, dispatch)
             }
         })
-        .catch((error: AxiosError) => {
-            dispatch(setAppErrorAC(error.message ? error.message : 'some error'))
-            dispatch(setAppStatusAC('failed'))
+        .catch((error) => {
+            handleServerAppError(error, dispatch)
         })
 }
 
