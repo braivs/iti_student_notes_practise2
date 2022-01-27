@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {removeTaskAC, removeTaskACThunk} from "./features/TodolistsList/tasks-reducer";
 import {useDispatch} from "react-redux";
@@ -25,9 +25,11 @@ function App() {
         dispatch(setTodosThunk())
     }, [])
 
-    function removeTask(id: string) {
-        dispatch(removeTaskACThunk(id))
-    }
+    // calling thunkCreator
+    const removeTask = useCallback(function removeTask(id: string, todolistId: string) {
+        let payload = {todolistId: todolistId, taskId: id}
+        dispatch(removeTaskACThunk(id, todolistId))
+    }, [dispatch])
 
     let isError = useAppSelector<string | null>(state => state.app.isError)
 

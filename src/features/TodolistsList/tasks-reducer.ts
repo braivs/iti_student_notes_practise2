@@ -33,7 +33,7 @@ export const fetchTasksAC = (tasks: Array<TaskType>, todolistId: string) => {
     } as const
 }
 
-export const removeTaskAC = (id: string) => {
+export const removeTaskAC = (id: string, todolistId: string) => {
     // get id from dispatch
     return {
         type: 'REMOVE-TASK', // necessary field-key for switch
@@ -42,8 +42,8 @@ export const removeTaskAC = (id: string) => {
 }
 
 //creating our thunk
-export const removeTaskACThunk = (id: string) => (dispatch: Dispatch) => {
-    dispatch(removeTaskAC(id))
+export const removeTaskACThunk = (id: string, todolistId: string) => (dispatch: Dispatch) => {
+    dispatch(removeTaskAC(id, todolistId))
 }
 
 export const fetchTasksThunk = (todolistId: string) => (dispatch: Dispatch) => {
@@ -62,6 +62,17 @@ export const updateTaskTC = (todolistId: string, taskId: string) =>
             .then((res) => {
             })
     }
+
+// new thunkCreator
+export const removeTaskThunk = (payload: {todolistId: string, taskId: string}) => (dispatch: Dispatch) => {
+    todolistsAPI.deleteTask(payload)
+        .then((res)=>{
+            if (res.data.resultCode === 0) {
+                dispatch(removeTaskAC(payload.taskId, payload.todolistId))
+            }
+        })
+
+}
 
 // bundle key-type for actions
 type ActionTypes =
