@@ -5,6 +5,7 @@ import {TaskType} from "../../types/types";
 import {Dispatch} from "redux";
 import {todolistsAPI} from "../../api/todolists-api";
 import {RootReducerType} from "../../app/store";
+import {AxiosError} from "axios";
 
 // creating initial state - that is necessary
 // putting data inside, to draw something
@@ -74,10 +75,30 @@ export const removeTaskThunk = (payload: {todolistId: string, taskId: string}) =
 
 }
 
+export const addTaskTC = (title: string, todoListID: string) => (dispatch: Dispatch<ActionTypes>) => {
+    todolistsAPI.createTask(todoListID, title)
+        .then(res => {
+            // if (res.data.resultCode === 0) { // there was a problem that does not understand: 0 - this good or bad
+            if (res.data.resultCode === resultCodes.success) { // become
+
+            } else {
+
+            }
+        })
+        .catch((error: AxiosError) => {
+        })
+}
+
 // bundle key-type for actions
 type ActionTypes =
     | removeTaskActionType
 //for each action need type-here we get type automatically
 //note: ACTION, not the function returned ACTION
 type removeTaskActionType = ReturnType<typeof removeTaskAC>
+
+enum resultCodes {
+    success = 0,
+    error = 1,
+    captcha = 10
+}
 
