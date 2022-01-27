@@ -40,6 +40,17 @@ export const todolistsAPI = {
     },
 }
 
+export const authAPI = {
+    login(data: LoginParamsType) {
+        const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login', data);
+        return promise;
+    },
+    logout() {
+        const promise = instance.delete<ResponseType<{ userId?: number }>>('auth/login');
+        return promise;
+    },
+}
+
 export type UpdateTaskModelType = {
     title: string
     description: string
@@ -101,4 +112,10 @@ export type TodolistType = {
     title: string
     addedDate: string
     order: number
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
 }
